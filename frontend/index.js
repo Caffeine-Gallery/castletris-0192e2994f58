@@ -28,7 +28,7 @@ const tetrominoes = [
 ];
 
 function createBoard() {
-    gameBoard.innerHTML = ''; // Clear the game board
+    gameBoard.innerHTML = '';
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         board[y] = [];
         for (let x = 0; x < BOARD_WIDTH; x++) {
@@ -36,22 +36,19 @@ function createBoard() {
             const block = document.createElement('div');
             block.style.width = `${BLOCK_SIZE}px`;
             block.style.height = `${BLOCK_SIZE}px`;
+            block.style.position = 'absolute';
+            block.style.top = `${y * BLOCK_SIZE}px`;
+            block.style.left = `${x * BLOCK_SIZE}px`;
             gameBoard.appendChild(block);
         }
     }
 }
 
 function drawBoard() {
-    let blocks = gameBoard.getElementsByTagName('div');
-    let index = 0;
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         for (let x = 0; x < BOARD_WIDTH; x++) {
-            if (board[y][x]) {
-                blocks[index].className = `tetromino ${board[y][x]}`;
-            } else {
-                blocks[index].className = '';
-            }
-            index++;
+            const block = gameBoard.children[y * BOARD_WIDTH + x];
+            block.className = board[y][x] ? `tetromino ${board[y][x]}` : '';
         }
     }
 }
@@ -70,22 +67,24 @@ function drawPiece() {
     currentPiece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value) {
-                let block = gameBoard.children[(currentPiece.y + y) * BOARD_WIDTH + (currentPiece.x + x)];
+                const block = document.createElement('div');
                 block.className = `tetromino ${currentPiece.className}`;
+                block.style.width = `${BLOCK_SIZE}px`;
+                block.style.height = `${BLOCK_SIZE}px`;
+                block.style.position = 'absolute';
+                block.style.top = `${(currentPiece.y + y) * BLOCK_SIZE}px`;
+                block.style.left = `${(currentPiece.x + x) * BLOCK_SIZE}px`;
+                gameBoard.appendChild(block);
             }
         });
     });
 }
 
 function erasePiece() {
-    currentPiece.shape.forEach((row, y) => {
-        row.forEach((value, x) => {
-            if (value) {
-                let block = gameBoard.children[(currentPiece.y + y) * BOARD_WIDTH + (currentPiece.x + x)];
-                block.className = '';
-            }
-        });
-    });
+    const pieces = gameBoard.getElementsByClassName('tetromino');
+    while (pieces.length > 0) {
+        pieces[0].remove();
+    }
 }
 
 function canMoveTo(newX, newY, newShape) {
@@ -137,6 +136,8 @@ function dropPiece() {
             clearInterval(gameInterval);
             alert('Game Over!');
             saveHighScore();
+        } else {
+            drawPiece();
         }
     }
 }
@@ -164,7 +165,7 @@ function update() {
 }
 
 function startGame() {
-    console.log("Starting game..."); // Debug log
+    console.log("Starting game...");
     if (gameInterval) {
         clearInterval(gameInterval);
     }
@@ -175,13 +176,13 @@ function startGame() {
     gameOver = false;
     createBoard();
     currentPiece = createPiece();
-    drawPiece(); // Draw the initial piece
+    drawPiece();
     gameInterval = setInterval(update, 1000);
     scoreDisplay.textContent = 'Score: 0';
     levelDisplay.textContent = 'Level: 1';
     drawBoard();
-    console.log("Game started!"); // Debug log
-    gameBoard.focus(); // Focus on the game board
+    console.log("Game started!");
+    startButton.textContent = 'Restart Game';
 }
 
 async function saveHighScore() {
