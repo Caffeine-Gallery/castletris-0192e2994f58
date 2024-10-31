@@ -1,0 +1,67 @@
+body {
+    background-color: #f0e6d2;
+    font-family: 'Times New Roman', serif;
+}
+
+#game-board {
+    width: 300px;
+    height: 600px;
+    background-color: #8b4513;
+    border: 10px solid #4a2511;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tetromino {
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+}
+
+.castle-wall {
+    background-image: url('https://i.imgur.com/9Xd4Ywx.png');
+}
+
+.tower {
+    background-image: url('https://i.imgur.com/ZKrXMJt.png');
+}
+
+.shield {
+    background-image: url('https://i.imgur.com/QQ5JLs3.png');
+}
+
+.sword {
+    background-image: url('https://i.imgur.com/1Kg5ZUi.png');
+}
+
+h1, h3 {
+    color: #4a2511;
+    text-shadow: 2px 2px #f0e6d2;
+}
+
+#score, #level {
+    font-size: 1.2em;
+    color: #4a2511;
+}
+
+#start-button {
+    background-color: #8b4513;
+    border-color: #4a2511;
+}
+
+#start-button:hover {
+    background-color: #4a2511;
+}
+
+#high-scores {
+    list-style-type: none;
+    padding: 0;
+}
+
+#high-scores li {
+    background-color: #d2b48c;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}

@@ -1,0 +1,4 @@
+service : {
+  getHighScores: () -> (vec nat) query;
+  saveHighScore: (nat) -> ();
+}
