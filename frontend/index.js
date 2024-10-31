@@ -28,6 +28,7 @@ const tetrominoes = [
 ];
 
 function createBoard() {
+    gameBoard.innerHTML = ''; // Clear the game board
     for (let y = 0; y < BOARD_HEIGHT; y++) {
         board[y] = [];
         for (let x = 0; x < BOARD_WIDTH; x++) {
@@ -163,6 +164,7 @@ function update() {
 }
 
 function startGame() {
+    console.log("Starting game..."); // Debug log
     if (gameInterval) {
         clearInterval(gameInterval);
     }
@@ -173,10 +175,13 @@ function startGame() {
     gameOver = false;
     createBoard();
     currentPiece = createPiece();
+    drawPiece(); // Draw the initial piece
     gameInterval = setInterval(update, 1000);
     scoreDisplay.textContent = 'Score: 0';
     levelDisplay.textContent = 'Level: 1';
     drawBoard();
+    console.log("Game started!"); // Debug log
+    gameBoard.focus(); // Focus on the game board
 }
 
 async function saveHighScore() {
